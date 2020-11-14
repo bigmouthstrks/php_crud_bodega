@@ -1,19 +1,41 @@
 <?php 
-    include('../db.php'); 
-    include('../includes/header.php');
+    include('../../db.php'); 
+    include('../../includes/header.php');
 ?> 
 
-    <form class="container p-3" action="../database/db_agregar_bodega.php" method="POST">
+    <form class="container p-3" action="../../database/db_agregar_bodega.php" method="POST">
         <?php if(isset($_SESSION['mensaje'])) { ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $_SESSION['mensaje']; ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         <?php session_unset(); } ?>
+
         <h1>Agregar nueva bodega</h1>
         <div class="form-group">
+
+            <?php 
+                $query = "SELECT count(id_bodega) from bodega";
+                $result = mysqli_query($connection, $query);
+
+                $cantBodegas = mysqli_fetch_array($result, MYSQLI_NUM);
+
+                if($cantBodegas == '0'){
+                    $idBodega = 'BODEGA001';
+                }
+                if($cantBodegas > 0 && $cantBodegas <= 9){
+                    $idBodega = "BODEGA00$cantBodegas";
+                }
+                if($cantBodegas >= 10 && $cantBodegas <= 99){
+                    $idBodega = "Bodega0$cantBodegas";
+                }
+                if($cantBodegas >= 100 && $cantBodegas <= 999){
+                    $idBodega = "Bodega$cantBodegas";
+                }
+            ?>
+
             <label for="id_bodega">ID Bodega:</label>
             <input type="text" name="id_bodega" class="form-control" placeholder="Ingrese ID de la nueva Bodega">
         </div>    
@@ -50,4 +72,4 @@
     </form>
 
 
-<?php include('../includes/footer.php') ?>
+<?php include('../../includes/footer.php') ?>

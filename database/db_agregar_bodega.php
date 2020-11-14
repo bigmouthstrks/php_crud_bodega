@@ -16,12 +16,9 @@ if (isset($_POST["agregar_bodega"])){
         echo "ERROR: Consulta fallida";
     }
 
-    $_SESSION['mensaje'] = 'Tarea realizada con éxito';
-    $_SESSION['tipo_mensaje'] = 'Correcto';
-    
-    header("Location: ../bodegas/agregar_bodega.php"); 
+    $_SESSION['mensaje'] = 'Bodega agregada con éxito';
+
+    header("Location: ../views/bodegas/agregar_bodega.php"); 
 }
-
-
 
 ?>

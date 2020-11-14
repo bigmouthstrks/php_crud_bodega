@@ -1,12 +1,11 @@
 <?php 
-    include("../includes/header.php");
-    include("../db.php");
+    include("../../includes/header.php");
+    include("../../db.php");
 ?>
-
 
     <div class="container p-3">
         <div class="row d-flex justify-content-between">        
-            <a href="..">Volver</a>
+            <a href="../../">Volver</a>
             <a href="./agregar_bodega.php">Nueva bodega</a>
         </div>
         <?php 
@@ -18,7 +17,15 @@
         while($row = $result->fetch_array()){
             $rows[] = $row;
         }
-
+        
+        if(isset($_SESSION['mensaje'])) { ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $_SESSION['mensaje']; ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        <?php session_unset(); } 
         foreach($rows as $row){ ?>
             <div class='row p-3 shadow mt-4 rounded d-flex justify-content-between'>
                 <div class='col-6 pt-3'>
@@ -27,8 +34,8 @@
                     <p>Región: <?= $row['region'] ?> región</p>
                 </div>
                 <div class='col-4 pt-3'>
-                    <a href="modificar_bodega.php?id=<?= $row['id_bodega'] ?>" class='col-4 btn btn-info'>Editar</a>
-                    <a href="eliminar_bodega.php?id=<?= $row['id_bodega'] ?>" class='col-4 btn btn-danger'>Eliminar</a>
+                    <a href="modificar_bodega.php?id_bodega=<?= $row['id_bodega'] ?>" class='col-4 btn btn-info'>Editar</a>
+                    <a href="../../database/db_eliminar_bodega.php?id=<?= $row['id_bodega'] ?>" class='col-4 btn btn-danger'>Eliminar</a>
                 </div>
                 
             </div>

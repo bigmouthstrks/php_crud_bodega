@@ -10,5 +10,4 @@ $connection = mysqli_connect(
     "8888"
 );
 
-
 ?>
