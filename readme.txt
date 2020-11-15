@@ -10,6 +10,8 @@ Las tecnologías utilizadas para este proyecto son:
 - Javascript
 - MySQL
 
+Notas: En la carpeta 'database' se puede encontrar el archivo 'generar_db.sql' para generar la base de datos utilizada.
+
 Módulo desarrollado por:
 Benjamín Cáceres Ramírez
 Benjamin.caceres.ra@gmail.com
