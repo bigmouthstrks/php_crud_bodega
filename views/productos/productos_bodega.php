@@ -1,24 +1,28 @@
 <?php 
     include("../../includes/header.php");
     include("../../db.php");
+
+    if(isset($_GET['id'])){
+        $idBodegaActual = $_GET['id'];
+    }
 ?>
 
     <div class="container p-3">
-        <div class="row d-flex justify-content-between">        
+        <div class="row d-flex justify-content-between">
             <a href="../../">Volver</a>
-            <a href="./agregar_producto.php">Nuevo producto</a>
+            <a href="./agregar_producto.php?id=<?= $idBodegaActual ?>">Nuevo producto</a>
         </div>
-        <?php 
+        <?php  
         
-        $query = "SELECT * FROM producto";
+        /* Consulta para obtener todos los productos según la bodega indicada */
+        $query = "SELECT * FROM producto WHERE bodega_producto = '$idBodegaActual'";
         $result = mysqli_query($connection, $query);
 
-        /* Fetch de resultados de consulta a fariable $rows */
+        /* Fetch del resultado de la consulta a la variable tipo array $rows */
         while($row = $result->fetch_array()){
             $rows[] = $row;
         }
         
-        /* Se muestran mensajes correspondientes de acuerdo a resultados de consultas */
         if(isset($_SESSION['mensaje'])) { ?>
             <div class="alert alert-<?= $_SESSION['tipo'] ?> alert-dismissible fade show" role="alert">
                 <?= $_SESSION['mensaje']; ?>
@@ -28,14 +32,12 @@
             </div>
         <?php session_unset(); } 
         if(count($rows) > 0){
-        /* Se muestra tarjeta con datos para cada uno de los productos de la bodega indicada */
+        /* Para cada producto se muestra una tarjeta con sus respectivos datos y opciones*/
         foreach($rows as $row){ ?>
             <div class='row p-3 shadow mt-4 rounded d-flex justify-content-between'>
                 <div class='col-6 pt-3'>
-                    <h4>ID producto: <?= $row['id_producto'] ?> </h4>
-                    <p>Nombre: <?= $row['nombre'] ?> </p>
-                    <p>Precio: <?= $row['precio'] ?></p>
-                    <p>Stock: <?= $row['stock'] ?></p>
+                    <h4><?= $row['nombre'] ?></h4>
+                    <p><b>ID Producto:</b> <?= $row['id_producto'] ?>  <b>Stock:</b> <?= $row['stock'] ?>  <b>Precio: </b>$<?= $row['precio'] ?> </p>
                 </div>
                 <div class='col-4 pt-3'>
                     <a href="modificar_producto.php?id_producto=<?= $row['id_producto'] ?>" class='col-4 btn btn-info'>Editar</a>
@@ -52,6 +54,6 @@
         $result->close();
         
         ?>
-    </div>
+        </div>
 
 <?php include('../includes/footer.php') ?>

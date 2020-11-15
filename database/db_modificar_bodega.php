@@ -2,15 +2,17 @@
 
 include('../db.php');
 
-if (isset($_POST["agregar_bodega"])){
+$listaRegiones = ["Arica","Tarapacá","Antofagasta","Atacama","Coquimbo","Valparaíso","Metropolitana","O'Higgins","Maule","Ñuble","Biobío","La Araucanía","Los Ríos","Los Lagos","Magallanes"];
+
+if (isset($_POST["modificar_bodega"])){
+    $idBodega = $_POST["id_bodega"];
     $nombre = $_POST["nombre_bodega"];
     $direccion = $_POST["direccion_bodega"];
     $region = $_POST["region_bodega"];
 
     $largoNombre = strlen($nombre);
     $largoDireccion = strlen($direccion);
-
-    $listaRegiones = ["Arica","Tarapacá","Antofagasta","Atacama","Coquimbo","Valparaíso","Metropolitana","O'Higgins","Maule","Ñuble","Biobío","La Araucanía","Los Ríos","Los Lagos","Magallanes"];
+    $largoRegion = strlen($region);
 
     /* Validar cantidad de carácteres de cada uno de los campos */
     if($largoNombre < 3 or $largoNombre > 30){
@@ -30,20 +32,23 @@ if (isset($_POST["agregar_bodega"])){
         $_SESSION['tipo'] = 'danger';
         header("Location: ../views/bodegas/agregar_bodega.php");
     }
-    
-    $query = "INSERT INTO bodega(nombre, direccion, region) VALUES ('$nombre', '$direccion', '$region')";
-    $res = mysqli_query($connection, $query);
 
-    /* Redirección con mensaje de feedback según resultado de la consulta */
-    if (!res){
-        $_SESSION['mensaje'] = 'Error. Ninguna bodega ha sido agregada.';
-        $_SESSION['tipo'] = 'danger';
-        header("Location: ../views/bodegas/agregar_bodega.php"); 
-    }else{
-        $_SESSION['mensaje'] = 'Bodega agregada con éxito';
+    $query = "UPDATE bodega SET nombre = '$nombre', direccion = '$direccion', region = '$region' WHERE id_bodega = '$idBodega'";
+
+    echo $query;
+
+    $res = mysqli_query($connection, $query);
+    
+    if (!$res){
+        $_SESSION['mensaje'] = 'Producto modificado con éxito';
         $_SESSION['tipo'] = 'success';
-        header("Location: ../views/bodegas/agregar_bodega.php"); 
+        header("Location: ../index.php");
+    }else{
+        $_SESSION['mensaje'] = 'Producto modificado con éxito';
+        $_SESSION['tipo'] = 'success';
+        header("Location: ../index.php");
     }
+    
 }
 
 ?>
